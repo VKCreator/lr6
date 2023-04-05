@@ -1,0 +1,163 @@
+@font-face {
+    font-family: "Pattaya";
+    src: url("../fonts/Pattaya-Regular.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: "Shampanskoescript";
+    src: url("../fonts/Shampanskoescript.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+} 
+
+@font-face {
+    font-family: "OldClassic";
+    src: url("../fonts/OldClassic.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+
+@media (min-width: 992px) {
+    html {
+        max-height: 100vh;
+        overflow: hidden;
+    }
+}
+
+
+/* @font-face {
+    font-family: "Shelley Volante";
+    src: url("../fonts/Shelley Volante.ttf") format("truetype");
+    font-style: normal;
+    font-weight: 400;
+} */
+
+/* remove default settings */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scrollbar-width: thin;
+    scrollbar-color: white rgb(190, 190, 190);
+}
+
+/* Background */
+
+#main-background {
+    background-color: #FED6BC;
+}
+
+.paramContainer {
+    background-color: white;
+    /* min-height: 100vh !important;
+    max-height: 100vh !important; */
+    scrollbar-width: thin;
+    scrollbar-color: black white ;
+    /* overflow-y: hidden; */
+    overflow-x: hidden;
+}
+
+.vh-lg-100 {
+    /* background-color: white; */
+    max-height: 80vh !important; 
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: black white ;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color:black;
+}
+
+.inputWidth {
+    width: 80%;
+}
+
+.colorWidth {
+    width: 80%;
+    max-width: 75px;
+}
+
+
+#textCelebrating {
+    resize: none;
+}
+
+.paramsCont {
+    width: 65%;
+    min-width: 250px;
+}
+
+.scrollcont {
+    overflow:auto; 
+    width: 100%;
+    max-height: 75vh;
+    scrollbar-width: thin;
+    scrollbar-color: white rgb(190, 190, 190);
+}
+
+label {
+    font-weight: 600;
+}
+
+p {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.bg-container {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.param-container {
+    height: 50%;
+}
+
+.styled-select select {
+    font-size: 14pt;
+    height: 10px;
+}
+
+.header {
+    font-family: 'Shampanskoescript';
+}
+
+.alignSave {
+    text-align: center;
+}
+
+.marginLine {
+    margin-top: 100px;
+
+}
+
+@media (max-width: 992px) {
+    .marginLine {
+        margin-top: 2px;
+    }
+
+    .m-max-lg {
+        margin: auto;
+    }
+}
+
+.offset {
+    font-weight: bolder;
+    font-size: 15px;
+}
+

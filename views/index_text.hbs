@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/all.min.css">
+    <link rel="icon" href="data:;base64,=">
+    <title>Генератор открыток</title>
+</head>
+
+<body id="main-background">
+    <div class="container-fluid h-100">
+        <div class="row flex-lg-row flex-column-reverse h-100">
+            <div class="col-lg-3 col-10 d-flex p-0 paramContainer m-max-lg vh-100">
+                <div class="bg-white p-2">
+                    <div class="row h-100">
+                        <div class="col-12">
+                            <div class="col-12 text-center">
+                                <p>Параметры открытки</p>
+                                {{!-- <hr class="m-0"> --}}
+                            </div>
+                            <div class="vh-lg-100">
+                                <form action="/" method="post">
+                                    <div class="accordion accordion-flush" id="accordionFlushExample">
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="flush-headingOne">
+                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                                    data-bs-target="#flush_common" aria-expanded="false"
+                                                    aria-controls="flush_common" id="common">Общие
+                                                </button>
+                                            </h2>
+                                            <div id="flush_common"
+                                                class="accordion-collapse collapse"
+                                                aria-labelledby="panelsStayOpen-headingOne">
+                                                <div class="accordion-body">
+                                                    <div class="col-12 mt-2">
+                                                        <div class="row align-items-center">
+                                                            <div class="col-sm-4 col-12">
+                                                                <label for="selectGender">Пол</label>
+                                                            </div>
+                                                            <div class="col-sm-8 col-12">
+                                                                <select
+                                                                    class="form-select inputWidth float-sm-end float-start"
+                                                                    name="selectGender" id="selectGender">
+                                                                    {{#ifEquals post.selectGender "female"}}
+                                                                    <option value="female" selected>Женский</option>
+                                                                    <option value="male">Мужской</option>
+                                                                    {{else}}
+                                                                    <option value="female">Женский</option>
+                                                                    <option value="male" selected>Мужской</option>
+                                                                    {{/ifEquals}}
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 mt-2">
+                                                        <div class="row align-items-center">
+                                                            <div class="col-sm-4 col-12">
+                                                                <label for="selectCelebrating">Праздник</label>
+                                                            </div>
+                                                            <div class="col-sm-8 col-12">
+                                                                <select
+                                                                    class="form-select inputWidth float-sm-end float-start"
+                                                                    name="selectCelebrating" id="selectCelebrating">
+                                                                    {{#each commonCelebrating}}
+                                                                    {{#if (ifEquals2 ../post.selectCelebrating @key) }}
+                                                                    <option value={{@key}} selected>{{this}}</option>
+                                                                    {{else}}
+                                                                    <option value={{@key}}>{{this}}</option>
+                                                                    {{/if}}
+                                                                    {{/each}}
+
+                                                                    {{#if (ifEquals2 post.selectGender "male") }}
+                                                                    {{#each menCelebrating}}
+                                                                    {{#if (ifEquals2 ../post.selectCelebrating @key) }}
+                                                                    <option class="man" value={{@key}} selected>{{this}}</option>
+                                                                    {{else}}
+                                                                    <option class="man" value={{@key}}>{{this}}</option>
+                                                                    {{/if}}
+                                                                    {{/each}}
+                                                                    {{else}}
+                                                                    {{#each womenCelebrating}}
+                                                                    {{#if (ifEquals2 ../post.selectCelebrating @key) }}
+                                                                    <option class="woman" value={{@key}} selected>{{this}}</option>
+                                                                    {{else}}
+                                                                    <option class="woman" value={{@key}}>{{this}}</option>
+                                                                    {{/if}}
+                                                                    {{/each}}
+                                                                    {{/if}}
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 mt-1">
+                                                        <div class="row align-items-center">
+                                                            <div class="col-sm-4 col-12">
+                                                                <label for="cardSize">Размер открытки, пикс.</label>
+                                                            </div>
+                                                            <div class="col-sm-8 col-12">
+                                                                <select
+                                                                    class="form-select inputWidth float-sm-end float-start"
+                                                                    name="cardSize" id="cardSize">
+                                                                    {{#each cardSizes}}
+                                                                    {{#if (ifEquals2 ../post.cardSize this) }}
+                                                                    <option value={{this}} selected>{{this}}</option>
+                                                                    {{else}}
+                                                                    <option value={{this}}>{{this}}</option>
+                                                                    {{/if}}
+                                                                    {{/each}}
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 mt-2">
+                                                        <div class="row">
+                                                            <div class="col-sm-6 col-12 d-flex align-items-center">
+                                                                <label for="borderWidth" class="form-label">Толщина рамки, пикс.</label>
+                                                            </div>
+                                                            <div class="col-sm-6 col-12">
+                                                                <input
+                                                                    class="form-control inputWidth float-sm-end float-start"
+                                                                    type="number" min="0" max="10" step="1"
+                                                                    value={{post.borderWidth}} name="borderWidth"
+                                                                    id="borderWidth">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 mt-2">
+                                                        <div class="row">
+                                                            <div class="col-sm-6 col-12 d-flex align-items-center">
+                                                                <label for="colorCard">Цвет открытки</label>
+                                                            </div>
+                                                            <div class="col-sm-6 col-12">
+                                                                <input type="color" value={{post.colorCard}}
+                                                                    class="form-control colorWidth float-sm-end float-start"
+                                                                    name="colorCard" id="colorCard">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 mt-2">
+                                                        <div class="row">
+                                                            <div class="col-sm-6 col-12 d-flex align-items-center">
+                                                                <label for="colorBorder" class="form-label">Цвет рамки</label>
+                                                            </div>
+                                                            <div class="col-sm-6 col-12">
+                                                                <input
+                                                                    class="form-control colorWidth float-sm-end float-start"
+                                                                    type="color" value={{post.colorBorder}}
+                                                                    name="colorBorder" id="colorBorder">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="flush-headingTwo">
+                                                <button class="accordion-button collapsed" type="button"
+                                                    data-bs-toggle="collapse" data-bs-target="#flush_textAcc"
+                                                    aria-expanded="false" aria-controls="flush_textAcc" id="textAcc">
+                                                    Текст
+                                                </button>
+                                            </h2>
+                                            <div id="flush_textAcc" class="accordion-collapse collapse"
+                                                aria-labelledby="flush-headingTwo">
+                                                <div class="accordion-body">
+                                                    <div class="col-12 mt-2 text-center">
+                                                        <label for="textCelebrating">Текст на открытке</label>
+                                                    </div>
+                                                    <div class="col-12 mt-2 text-center">
+                                                        <textarea class="form-control" name="textCelebrating"
+                                                            id="textCelebrating" rows="5"
+                                                            placeholder="Пишите поздравление здесь...">{{post.textCelebrating}}</textarea>
+                                                    </div>
+                                                    <div class="col-12 mt-2">
+                                                        <div class="row">
+                                                            <div class="col-sm-6 col-12 d-flex align-items-center">
+                                                                <label for="alignHorizontal">Выравнивание текста по
+                                                                    горизонтали</label>
+                                                            </div>
+                                                            <div class="col-sm-6 col-12">
+                                                                <select
+                                                                    class="form-select inputWidth float-sm-end float-start"
+                                                                    name="alignHorizontal" id="alignHorizontal">
+                                                                    {{#ifEquals post.alignHorizontal "center"}}
+                                                                    <option value="center" selected>По центру</option>
+                                                                    <option value="left">По левому краю</option>
+                                                                    <option value="right">По правому краю</option>
+                                                                    {{else if (ifEquals2 post.alignHorizontal "left")}}
+                                                                    <option value="center">По центру</option>
+                                                                    <option value="left" selected>По левому краю</option>
+                                                                    <option value="right">По правому краю</option>
+                                                                    {{else}}
+                                                                    <option value="center">По центру</option>
+                                                                    <option value="left">По левому краю</option>
+                                                                    <option value="right" selected>По правому краю</option>
+                                                                    {{/ifEquals}}
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 mt-2">
+                                                        <div class="row">
+                                                            <div class="col-sm-6 col-12 d-flex align-items-center">
+                                                                <label for="alignVertical">Выравнивание текста по вертикали</label>
+                                                            </div>
+                                                            <div class="col-sm-6 col-12">
+                                                                <select
+                                                                    class="form-select inputWidth float-sm-end float-start"
+                                                                    name="alignVertical" id="alignVertical">
+                                                                    {{#ifEquals post.alignVertical "middle"}}
+                                                                    <option value="middle" selected>По центру</option>
+                                                                    <option value="top">По верхнему краю</option>
+                                                                    <option value="bottom">По нижнему краю</option>
+                                                                    {{else if (ifEquals2 post.alignVertical "bottom")}}
+                                                                    <option value="middle">По центру</option>
+                                                                    <option value="top">По верхнему краю</option>
+                                                                    <option value="bottom" selected>По нижнему краю</option>
+                                                                    {{else}}
+                                                                    <option value="middle">По центру</option>
+                                                                    <option value="top" selected>По верхнему краю</option>
+                                                                    <option value="bottom">По нижнему краю</option>
+                                                                    {{/ifEquals}}
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 mt-2 text-center mb-2">
+                                                        <hr class="p-0">
+                                                        <label class="form-label">Смещение текста относительно<br>выравнивания, пикс.</label>
+                                                    </div>
+                                                    <div class="col-12 mt-2">
+                                                        <div class="row">
+                                                            <div class="col-sm-6 col-12 d-flex align-items-center">
+                                                                <label for="offsetLeftText"
+                                                                    class="form-label">Влево</label>
+                                                            </div>
+                                                            <div class="col-sm-6 col-12">
+                                                                <input
+                                                                    class="form-control inputWidth float-sm-end float-start"
+                                                                    type="number" min="0" max="500" step="1"
+                                                                    value={{post.offsetLeftText}} name="offsetLeftText"
+                                                                    id="offsetLeftText">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 mt-2">
+                                                        <div class="row">
+                                                            <div class="col-sm-6 col-12 d-flex align-items-center">
+                                                                <label for="offsetRightText"
+                                                                    class="form-label">Вправо</label>
+                                                            </div>
+                                                            <div class="col-sm-6 col-12">
+                                                                <input
+                                                                    class="form-control inputWidth float-sm-end float-start"
+                                                                    type="number" min="0" max="500" step="1"
+                                                                    value={{post.offsetRightText}}
+                                                                    name="offsetRightText" id="offsetRightText">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 mt-2">
+                                                        <div class="row">
+                                                            <div class="col-sm-6 col-12 d-flex align-items-center">
+                                                                <label for="offsetTopText"
+                                                                    class="form-label">Вверх</label>
+                                                            </div>
+                                                            <div class="col-sm-6 col-12">
+                                                                <input
+                                                                    class="form-control inputWidth float-sm-end float-start"
+                                                                    type="number" min="0" max="500" step="1"
+                                                                    value={{post.offsetTopText}}
+                                                                    name="offsetTopText" id="offsetTopText">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 mt-2">
+                                                        <div class="row">
+                                                            <div class="col-sm-6 col-12 d-flex align-items-center">
+                                                                <label for="offsetBottomText"
+                                                                    class="form-label">Вниз</label>
+                                                            </div>
+                                                            <div class="col-sm-6 col-12">
+                                                                <input
+                                                                    class="form-control inputWidth float-sm-end float-start"
+                                                                    type="number" min="0" max="500" step="1"
+                                                                    value={{post.offsetBottomText}}
+                                                                    name="offsetBottomText" id="offsetBottomText">
+                                                            </div>
+                                                        </div>
+                                                        <hr>
+                                                    </div>
+                                                    <div class="col-12 mt-2">
+                                                        <div class="row">
+                                                            <div class="col-sm-6 col-12 d-flex align-items-center">
+                                                                <label for="fontSize" class="form-label">Размер шрифта,
+                                                                    пикс.</label>
+                                                            </div>
+                                                            <div class="col-sm-6 col-12">
+                                                                <input
+                                                                    class="form-control inputWidth float-sm-end float-start"
+                                                                    type="number" min="10" max="100" step="1"
+                                                                    value={{post.fontSize}} name="fontSize"
+                                                                    id="fontSize">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 mt-2">
+                                                        <div class="row">
+                                                            <div class="col-sm-6 col-12 d-flex align-items-center">
+                                                                <label for="typeFont">Шрифт</label>
+                                                            </div>
+                                                            <div class="col-sm-6 col-12">
+                                                                <select
+                                                                    class="form-select inputWidth float-sm-end float-start"
+                                                                    name="typeFont" id="typeFont">
+                                                                    {{#ifEquals post.typeFont "OldClassic"}}
+                                                                    <option value="OldClassic" selected>
+                                                                        Классик_Кириллица</option>
+                                                                    <option value="Pattaya">Паттайя</option>
+                                                                    <option value="Shampanskoescript">Шампанское
+                                                                    </option>
+                                                                    {{else if (ifEquals2 post.typeFont "Pattaya")}}
+                                                                    <option value="OldClassic">Классик_Кириллица</option>
+                                                                    <option value="Pattaya" selected>Паттайя</option>
+                                                                    <option value="Shampanskoescript">Шампанское
+                                                                    </option>
+                                                                    {{else}}
+                                                                    <option value="OldClassic">Классик_Кириллица</option>
+                                                                    <option value="Pattaya">Паттайя</option>
+                                                                    <option value="Shampanskoescript" selected>
+                                                                        Шампанское</option>
+                                                                    {{/ifEquals}}
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 mt-2">
+                                                        <div class="row">
+                                                            <div class="col-sm-6 col-12 d-flex align-items-center">
+                                                                <label for="colorText" class="form-label">Цвет
+                                                                    текста</label>
+                                                            </div>
+                                                            <div class="col-sm-6 col-12">
+                                                                <input type="color" value={{post.colorText}}
+                                                                    class="form-control colorWidth float-sm-end float-start"
+                                                                    name="colorText" id="colorText">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="flush-headingThree">
+                                                <button class="accordion-button collapsed" type="button"
+                                                    data-bs-toggle="collapse" data-bs-target="#flush_pictAcc"
+                                                    aria-expanded="false" aria-controls="flush_pictAcc" id="pictAcc">
+                                                    Картинка
+                                                </button>
+                                            </h2>
+                                            <div id="flush_pictAcc" class="accordion-collapse collapse"
+                                                aria-labelledby="flush-headingThree">
+                                                <div class="accordion-body">
+                                                    <div class="col-12 mt-2">
+                                                        <div class="row">
+                                                            <div class="col-sm-6 col-12 d-flex align-items-center">
+                                                                <label for="pict">Картинка</label>
+                                                            </div>
+                                                            <div class="col-sm-6 col-12">
+                                                                <select data-post-current="{{post.pict}}"
+                                                                    class="form-select inputWidth float-sm-end float-start"
+                                                                    name="pict" id="pict">
+                                                                    {{!-- {{#each post.imageLibrary.Birthday}}
+                                                                    <option value={{this}}>{{this}}</option>
+                                                                    {{/each}} --}}
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 mt-2">
+                                                        <div class="row">
+                                                            <div class="col-sm-6 col-12 d-flex align-items-center">
+                                                                <label for="scalePicture" class="form-label">Масштаб
+                                                                    картинки</label>
+                                                            </div>
+                                                            <div class="col-sm-6 col-12">
+                                                                <input
+                                                                    class="form-control inputWidth float-sm-end float-start"
+                                                                    type="number" min="0.3" max="1" step="0.1"
+                                                                    value={{post.scalePicture}} name="scalePicture"
+                                                                    id="scalePicture">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 mt-2">
+                                                        <div class="row">
+                                                            <div class="col-sm-6 col-12 d-flex align-items-center">
+                                                                <label for="alignVerticalPicture">Выравнивание картинки
+                                                                    по вертикали</label>
+                                                            </div>
+                                                            <div class="col-sm-6 col-12">
+                                                                <select
+                                                                    class="form-select inputWidth float-sm-end float-start"
+                                                                    name="alignVerticalPicture"
+                                                                    id="alignVerticalPicture">
+                                                                    {{#ifEquals post.alignVerticalPicture "middle"}}
+                                                                    <option value="middle" selected>По центру</option>
+                                                                    <option value="top">По верхнему краю</option>
+                                                                    <option value="bottom">По нижнему краю</option>
+                                                                    {{else if (ifEquals2 post.alignVerticalPicture
+                                                                    "bottom")}}
+                                                                    <option value="middle">По центру</option>
+                                                                    <option value="top">По верхнему краю</option>
+                                                                    <option value="bottom" selected>По нижнему краю
+                                                                    </option>
+                                                                    {{else}}
+                                                                    <option value="middle">По центру</option>
+                                                                    <option value="top" selected>По верхнему краю
+                                                                    </option>
+                                                                    <option value="bottom">По нижнему краю</option>
+                                                                    {{/ifEquals}}
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 mt-2">
+                                                        <div class="row">
+                                                            <div class="col-sm-6 col-12 d-flex align-items-center">
+                                                                <label for="alignHorizontalPicture">Выравнивание
+                                                                    картинки по горизонтали</label>
+                                                            </div>
+                                                            <div class="col-sm-6 col-12">
+                                                                <select
+                                                                    class="form-select inputWidth float-sm-end float-start"
+                                                                    name="alignHorizontalPicture"
+                                                                    id="alignHorizontalPicture">
+                                                                    {{#ifEquals post.alignHorizontalPicture "center"}}
+                                                                    <option value="center" selected>По центру</option>
+                                                                    <option value="left">По левому краю</option>
+                                                                    <option value="right">По правому краю</option>
+                                                                    {{else if (ifEquals2 post.alignHorizontalPicture
+                                                                    "left")}}
+                                                                    <option value="center">По центру</option>
+                                                                    <option value="left" selected>По левому краю
+                                                                    </option>
+                                                                    <option value="right">По правому краю</option>
+                                                                    {{else}}
+                                                                    <option value="center">По центру</option>
+                                                                    <option value="left">По левому краю</option>
+                                                                    <option value="right" selected>По правому краю
+                                                                    </option>
+                                                                    {{/ifEquals}}
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 mt-2 text-center mb-2">
+                                                        <hr>
+                                                        <label class="form-label">Смещение картинки относительно<br>
+                                                            выравнивания, пикс.</label>
+                                                    </div>
+                                                    <div class="col-12 mt-2">
+                                                        <div class="row">
+                                                            <div class="col-sm-6 col-12 d-flex align-items-center">
+                                                                <label for="offsetLeftPicture"
+                                                                    class="form-label">Влево</label>
+                                                            </div>
+                                                            <div class="col-sm-6 col-12">
+                                                                <input
+                                                                    class="form-control inputWidth float-sm-end float-start"
+                                                                    type="number" min="0" max="500" step="1"
+                                                                    value={{post.offsetLeftPicture}}
+                                                                    name="offsetLeftPicture" id="offsetLeftPicture">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 mt-2">
+                                                        <div class="row">
+                                                            <div class="col-sm-6 col-12 d-flex align-items-center">
+                                                                <label for="offsetRightPicture"
+                                                                    class="form-label">Вправо</label>
+                                                            </div>
+                                                            <div class="col-sm-6 col-12">
+                                                                <input
+                                                                    class="form-control inputWidth float-sm-end float-start"
+                                                                    type="number" min="0" max="500" step="1"
+                                                                    value={{post.offsetRightPicture}}
+                                                                    name="offsetRightPicture" id="offsetRightPicture">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 mt-2">
+                                                        <div class="row">
+                                                            <div class="col-sm-6 col-12 d-flex align-items-center">
+                                                                <label for="offsetTopPicture"
+                                                                    class="form-label">Вверх</label>
+                                                            </div>
+                                                            <div class="col-sm-6 col-12">
+                                                                <input
+                                                                    class="form-control inputWidth float-sm-end float-start"
+                                                                    type="number" min="0" max="500" step="1"
+                                                                    value={{post.offsetTopPicture}}
+                                                                    name="offsetTopPicture" id="offsetTopPicture">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 mt-2">
+                                                        <div class="row">
+                                                            <div class="col-sm-6 col-12 d-flex align-items-center">
+                                                                <label for="offsetBottomPicture"
+                                                                    class="form-label">Вниз</label>
+                                                            </div>
+                                                            <div class="col-sm-6 col-12">
+                                                                <input
+                                                                    class="form-control inputWidth float-sm-end float-start"
+                                                                    type="number" min="0" max="500" step="1"
+                                                                    value={{post.offsetBottomPicture}}
+                                                                    name="offsetBottomPicture" id="offsetBottomPicture">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                        <div class="col-12 text-center d-flex justify-content-center align-items-end">
+                            <div class="row border-top w-100 pt-2">
+                                <div class="col-lg-6 col-12">
+                                    <input type="submit" class="btn btn-sm btn-primary mt-1" value="Получить открытку">
+                                </div>
+                                <div class="col-lg-6 col-12">
+                                    <div class="dropdown">
+                                        <button type="button" class="btn btn-primary mt-1 btn-sm dropdown-toggle mb-2"
+                                            data-bs-toggle="dropdown" id="saveCard">Сохранить <i
+                                                class="fa-solid fa-file-image fa-beat"></i></button>
+                                        <ul class="dropdown-menu">
+                                            <li><input type="button"
+                                                    class="btn btn-sm btn-primary mt-1 dropdown-item alignSave d-inline"
+                                                    id="saveCardPNG" value="PNG"></li>
+                                            <li><input type="button"
+                                                    class="btn btn-sm btn-primary mt-1 dropdown-item alignSave"
+                                                    id="saveCardJPG" value="JPG"></li>
+                                            {{!-- <li><a class="dropdown-item alignSave" href="" id="saveCardPNG">PNG <i
+                                                        class="fa-solid fa-file-image fa-beat"></i></a></li>
+                                            <li><a class="dropdown-item alignSave" href="" id="saveCardJPEG">JPEG <i
+                                                        class="fa-solid fa-file-image"></i></a></li> --}}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9 col-12">
+                <div class="row text-center border-bottom border-white border-3 mb-3">
+                    <div class="col-12">
+                        <h1 class="header display-2">Генератор поздравительных открыток</h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 d-flex justify-content-center">
+                        <div class="scrollcont mb-1 text-center">
+                            <canvas width="800" height="500" id="card">
+                            </canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="./js/bootstrap.bundle.min.js"></script>
+    <script src="./js/jquery.min.js"></script>
+    <script src="./js/utils.js"></script>
+</body>
+
+</html>
